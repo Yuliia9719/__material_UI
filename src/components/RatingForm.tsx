@@ -15,7 +15,6 @@ const RatingForm = () => {
         sx={{
           minWidth: "95vw",
           minHeight: "95vh",
-
           display: "flex",
           justifyContent: "center"
         }}
