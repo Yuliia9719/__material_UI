@@ -1,5 +1,6 @@
 import { FormEvent } from "react";
 import { useState } from "react";
+import { ChangeEvent } from "react";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
@@ -12,7 +13,7 @@ const RatingForm = () => {
 
   const isDisabled = ratingValue === null;
 
-  const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCommentChange = (e: ChangeEvent<HTMLInputElement>) => {
     setComment(e.target.value);
     setErrorComment("");
   };
@@ -31,8 +32,9 @@ const RatingForm = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Rating:", ratingValue, "Comment:", comment);
-    validateComment(comment);
+    if (validateComment(comment)) {
+      console.log("Rating:", ratingValue, "Comment:", comment);
+    }
   };
 
   return (
