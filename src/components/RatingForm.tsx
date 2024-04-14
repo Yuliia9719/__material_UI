@@ -20,7 +20,7 @@ const RatingForm = () => {
   const validateComment = (comment: string) => {
     let isValid = true;
     if (comment.trim() === "") {
-      setErrorComment("Comment cannot be empty");
+      setErrorComment("Comment field cannot be empty");
       isValid = false;
     } else if (comment.length < 10 || comment.length > 45) {
       setErrorComment("Comment must be between 10 and 45 characters");
