@@ -1,3 +1,4 @@
+import { FormEvent } from "react";
 import { useState } from "react";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -7,8 +8,33 @@ import TextField from "@mui/material/TextField";
 const RatingForm = () => {
   const [ratingValue, setRatingValue] = useState<number | null>(null);
   const [comment, setComment] = useState("");
+  const [errorComment, setErrorComment] = useState<string>("");
 
-  const isDisabled = ratingValue === null || comment === "";
+  const isDisabled = ratingValue === null;
+
+  const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setComment(e.target.value);
+    setErrorComment("");
+  };
+
+  const validateComment = (comment: string) => {
+    let isValid = true;
+    if (comment.trim() === "") {
+      setErrorComment("Comment cannot be empty");
+      isValid = false;
+    } else if (comment.length < 10 || comment.length > 45) {
+      setErrorComment("Comment must be between 10 and 45 characters");
+      isValid = false;
+    }
+    return isValid;
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("Rating:", ratingValue, "Comment:", comment);
+    validateComment(comment);
+  };
+
   return (
     <div>
       <Box
@@ -18,6 +44,8 @@ const RatingForm = () => {
           display: "flex",
           justifyContent: "center"
         }}
+        component="form"
+        onSubmit={handleSubmit}
       >
         <Box
           sx={{
@@ -40,11 +68,13 @@ const RatingForm = () => {
             multiline
             maxRows={4}
             value={comment}
-            onChange={e => setComment(e.target.value)}
+            onChange={handleCommentChange}
+            {...(errorComment ? { error: true, helperText: errorComment } : {})}
           >
             <input type="text" />
           </TextField>
           <Button
+            type="submit"
             color="secondary"
             disabled={isDisabled}
             sx={{ mt: 2 }}
